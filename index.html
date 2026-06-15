@@ -26,17 +26,65 @@
     .note { font-size:16px; color:#555; margin-top:16px; line-height:1.7; }
     .form-label { display:block; text-align:left; max-width:420px; margin:16px auto 6px; font-size:16px; font-weight:700; }
     .form-input { display:block; width:90%; max-width:420px; margin:0 auto 12px; padding:12px; font-size:18px; border:2px solid #333; border-radius:10px; box-sizing:border-box; background:#fff; }
-    @media (max-width:480px) {
-      .task-wrap { padding-top:14px; }
-      .timer-area { width:180px; height:180px; }
-      .timer-svg { width:180px; height:180px; }
-      .timer-bg, .timer-progress { stroke-width:12; }
-      .timer-number { font-size:46px; }
-    }
-  </style>
-</head>
 
-<body></body>
+　　@media (max-width: 480px) {
+  　　body {
+    　　overflow-x: hidden;
+  　　}
+　　  .task-wrap {
+   　　 padding: 8px 12px 12px;
+  　　}
+　　  .progress {
+   　　 font-size: 14px;
+    　　margin-bottom: 4px;
+　　  }
+　　  .timer-area {
+   　　 width: 120px;
+    　　height: 120px;
+    　　margin: 0 auto 8px;
+　　  }
+  　　.timer-svg {
+    　　width: 120px;
+    　　height: 120px;
+　　  }
+　　  .timer-bg,
+  　　.timer-progress {
+    　　stroke-width: 10;
+　　  }
+　　  .timer-number {
+   　　 font-size: 34px;
+　　  }
+　　  .problem {
+   　　 font-size: clamp(30px, 9vw, 42px);
+    　　margin: 8px 0 12px;
+    　　line-height: 1.15;
+　　  }
+　　  .answer-input {
+   　　 width: 86%;
+    　　max-width: 320px;
+    　　font-size: 28px;
+    　　padding: 8px;
+    　　border-radius: 10px;
+　　  }
+　　  .submit-button {
+   　　 width: 86%;
+    　　max-width: 320px;
+    　　margin: 10px auto 0;
+    　　padding: 10px 14px;
+    　　font-size: 20px;
+    　　border-radius: 10px;
+　　  }
+　　  .note {
+   　　 font-size: 14px;
+    　　margin-top: 10px;
+    　　line-height: 1.5;
+　　  }
+　　}
+   　　 }
+  　　</style>
+　　</head>
+
+　　<body></body>
 
 <script>
   /*
@@ -276,7 +324,6 @@
       <p class="note">
         できるだけ速く、正確に回答してください。
         準備ができた人は開始ボタンを押してください。
-        計算が始まります。
       </p>
 
       <button id="start-task-button" class="submit-button">開始</button>
@@ -431,7 +478,7 @@ const endMessage = {
     <div class="task-wrap">
       <h2>終了</h2>
       <p class="note">下のボタンを押すと終了します。</p>
-      <button id="send-data-button" class="submit-button">終了の確認をしています</button>
+      <button id="send-data-button" class="submit-button">終了</button>
     </div>
   `,
   on_load: function() {
