@@ -27,64 +27,63 @@
     .form-label { display:block; text-align:left; max-width:420px; margin:16px auto 6px; font-size:16px; font-weight:700; }
     .form-input { display:block; width:90%; max-width:420px; margin:0 auto 12px; padding:12px; font-size:18px; border:2px solid #333; border-radius:10px; box-sizing:border-box; background:#fff; }
 
-　　@media (max-width: 480px) {
-  　　body {
-    　　overflow-x: hidden;
-  　　}
-　　  .task-wrap {
-   　　 padding: 8px 12px 12px;
-  　　}
-　　  .progress {
-   　　 font-size: 14px;
-    　　margin-bottom: 4px;
-　　  }
-　　  .timer-area {
-   　　 width: 120px;
-    　　height: 120px;
-    　　margin: 0 auto 8px;
-　　  }
-  　　.timer-svg {
-    　　width: 120px;
-    　　height: 120px;
-　　  }
-　　  .timer-bg,
-  　　.timer-progress {
-    　　stroke-width: 10;
-　　  }
-　　  .timer-number {
-   　　 font-size: 34px;
-　　  }
-　　  .problem {
-   　　 font-size: clamp(30px, 9vw, 42px);
-    　　margin: 8px 0 12px;
-    　　line-height: 1.15;
-　　  }
-　　  .answer-input {
-   　　 width: 86%;
-    　　max-width: 320px;
-    　　font-size: 28px;
-    　　padding: 8px;
-    　　border-radius: 10px;
-　　  }
-　　  .submit-button {
-   　　 width: 86%;
-    　　max-width: 320px;
-    　　margin: 10px auto 0;
-    　　padding: 10px 14px;
-    　　font-size: 20px;
-    　　border-radius: 10px;
-　　  }
-　　  .note {
-   　　 font-size: 14px;
-    　　margin-top: 10px;
-    　　line-height: 1.5;
-　　  }
-　　}
-   　　 }
-  　　</style>
-　　</head>
+@media (max-width: 480px) {
+  body {
+    overflow-x: hidden;
+  }
+  .task-wrap {
+    padding: 8px 12px 12px;
+  }
+    .progress {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .timer-area {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 8px;
+  }
+  .timer-svg {
+    width: 120px;
+    height: 120px;
+  }
+  .timer-bg,
+  .timer-progress {
+    stroke-width: 10;
+  }
+  .timer-number {
+    font-size: 34px;
+  }
+  .problem {
+    font-size: clamp(30px, 9vw, 42px);
+    margin: 8px 0 12px;
+    line-height: 1.15;
+  }
+  .answer-input {
+    width: 86%;
+    max-width: 320px;
+    font-size: 28px;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  .submit-button {
+    width: 86%;
+    max-width: 320px;
+    margin: 10px auto 0;
+    padding: 10px 14px;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+  .note {
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+}
+  </style>
+</head>
 
-　　<body></body>
+<body></body>
 
 <script>
   /*
@@ -316,13 +315,13 @@
     <div class="task-wrap">
       <h2>時間制限つき計算課題</h2>
       <p class="note">
-        これから計算問題が表示されます。<br>
         各問題の制限時間は <strong>${TIME_LIMIT_SEC}秒</strong> です。<br>
         画面上部の円形タイマーが徐々に減っていきます。<br>
         答えを入力して、「回答」ボタンで確定してください。
       </p>
       <p class="note">
-        できるだけ速く、正確に回答してください。
+        できるだけ速く、正確に回答してください。<br>
+        答えの入力欄をタップしてから半角数字を入力してください。<br>
         準備ができた人は開始ボタンを押してください。
       </p>
 
@@ -331,14 +330,19 @@
   `,
   on_load: function() {
     const button = document.getElementById("start-task-button");
+    let clicked = false;
 
-    button.addEventListener("click", function() {
+    function proceed() {
+      if (clicked) return;
+      clicked = true;
       jsPsych.finishTrial();
-    });
+    }
+
+    button.addEventListener("click", proceed);
 
     button.addEventListener("touchstart", function(e) {
       e.preventDefault();
-      jsPsych.finishTrial();
+      proceed();
     }, { passive: false });
   }
 };
@@ -384,7 +388,6 @@
       const answerError = document.getElementById("answer-error");
 
       let finished = false;
-      input.focus();
 
       function finishTrial(timedOut = false) {
         if (finished) return;
@@ -501,4 +504,3 @@ const endMessage = {
   jsPsych.run(timeline);
 </script>
 </html>
-
