@@ -262,21 +262,38 @@
 };
 
   const instruction = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: `
-      <div class="task-wrap">
-        <h2>時間制限つき計算課題</h2>
-        <p class="note">
-          これから計算問題が表示されます。<br>
-          各問題の制限時間は <strong>${TIME_LIMIT_SEC}秒</strong> です。<br>
-          画面上部の円形タイマーが徐々に減っていきます。<br>
-          答えを入力して、Enterキーまたは「回答」ボタンで確定してください。
-        </p>
-        <p class="note">できるだけ速く、正確に回答してください。準備ができたら画面をタップしてください。</p>
-      </div>
-    `,
-    choices: "ALL_KEYS"
-  };
+  type: jsPsychHtmlKeyboardResponse,
+  choices: "NO_KEYS",
+  stimulus: `
+    <div class="task-wrap">
+      <h2>時間制限つき計算課題</h2>
+      <p class="note">
+        これから計算問題が表示されます。<br>
+        各問題の制限時間は <strong>${TIME_LIMIT_SEC}秒</strong> です。<br>
+        画面上部の円形タイマーが徐々に減っていきます。<br>
+        答えを入力して、「回答」ボタンで確定してください。
+      </p>
+      <p class="note">
+        できるだけ速く、正確に回答してください。
+        準備ができた人は画面をタップしてください。計算が始まります。
+      </p>
+
+      <button id="start-task-button" class="submit-button">開始</button>
+    </div>
+  `,
+  on_load: function() {
+    const button = document.getElementById("start-task-button");
+
+    button.addEventListener("click", function() {
+      jsPsych.finishTrial();
+    });
+
+    button.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      jsPsych.finishTrial();
+    }, { passive: false });
+  }
+};
 
   function makeCalculationTrial(problem) {
   return {
@@ -409,11 +426,29 @@
   };
 }
 
-  const endMessage = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<div class="task-wrap"><h2>終了</h2><p class="note">画面をタップするとデータを送信します。</p></div>`,
-    choices: "ALL_KEYS"
-  };
+const endMessage = {
+  type: jsPsychHtmlKeyboardResponse,
+  choices: "NO_KEYS",
+  stimulus: `
+    <div class="task-wrap">
+      <h2>終了</h2>
+      <p class="note">下のボタンを押すと終了します。</p>
+      <button id="send-data-button" class="submit-button">終了の確認をしています</button>
+    </div>
+  `,
+  on_load: function() {
+    const button = document.getElementById("send-data-button");
+
+    button.addEventListener("click", function() {
+      jsPsych.finishTrial();
+    });
+
+    button.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      jsPsych.finishTrial();
+    }, { passive: false });
+  }
+};
 
   const timeline = [infoForm, instruction];
   problems.forEach(problem => timeline.push(makeCalculationTrial(problem)));
@@ -421,3 +456,4 @@
   jsPsych.run(timeline);
 </script>
 </html>
+
